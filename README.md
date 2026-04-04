@@ -21,7 +21,7 @@ This platform solves all of the above.
 
 ---
 
-## 🏗️ Solution
+## Solution
 
 A fully automated, end-to-end streaming and batch data pipeline that:
 
