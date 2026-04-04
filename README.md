@@ -1,4 +1,4 @@
-# 🛒 E-Commerce Real-Time Data Platform
+# E-Commerce Real-Time Data Platform
 
 ## Overview
 
@@ -8,7 +8,7 @@ The platform is built using industry-standard tools that mirror what modern data
 
 ---
 
-## 🎯 Business Problem
+## Business Problem
 
 An e-commerce company generates thousands of events per minute — customers browsing products, placing orders, and inventory changing in real-time. Without a reliable data platform:
 
@@ -26,29 +26,29 @@ This platform solves all of the above.
 A fully automated, end-to-end streaming and batch data pipeline that:
 
 1. **Ingests** real-time e-commerce events via Apache Kafka
-2. **Processes** and cleans the stream using Apache Spark on Databricks
+2. **Processes** and cleans the stream using Apache Spark on Docker
 3. **Stores** raw and transformed data in Snowflake
 4. **Models** business-ready datasets using dbt
 5. **Orchestrates** the entire workflow using Apache Airflow
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Tool | Purpose |
 |---|---|---|
-| Event Streaming | Apache Kafka (Confluent Cloud) | Real-time event ingestion |
-| Stream Processing | Apache Spark (Databricks) | Distributed data processing |
+| Event Streaming | Apache Kafka (Docker) | Real-time event ingestion |
+| Stream Processing | Apache Spark (Docker) | Distributed data processing |
 | Data Warehouse | Snowflake | Storage & querying |
 | Data Transformation | dbt | Data modeling & testing |
 | Orchestration | Apache Airflow | Pipeline scheduling & monitoring |
-| Containerization | Docker | Local Kafka + Airflow setup |
+| Containerization | Docker, Docker Compose | Local Development Environment |
 | Language | Python | Producers, Spark jobs, DAGs |
 | Version Control | GitHub | Source code & documentation |
 
 ---
 
-## 📊 Data Domains
+## Data Domains
 
 ### Orders
 Captures every purchase event with order ID, user ID, product ID, quantity, price, and timestamp.
@@ -61,7 +61,7 @@ Records stock level changes triggered by purchases, restocks, or manual adjustme
 
 ---
 
-## 🔄 Data Flow
+## Data Flow
 
 ```
 [Python Event Generator]
@@ -70,8 +70,8 @@ Records stock level changes triggered by purchases, restocks, or manual adjustme
   [Kafka Topics]          orders | clickstream | inventory_updates
          |
          ▼
-  [Databricks]            Spark Structured Streaming
-  (Stream Processing)     → clean, deduplicate, cast types
+  [Spark]            Spark Structured Streaming
+  (Docker Container)     → clean, deduplicate, cast types
          |
          ▼
   [Snowflake]             RAW schema → staging tables
@@ -85,11 +85,11 @@ Records stock level changes triggered by purchases, restocks, or manual adjustme
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 ecommerce-data-platform/
-├── docker-compose.yml            # Spins up Kafka + Airflow locally
+├── docker-compose.yml            # Spins up Kafka, Spark and Airflow locally
 ├── README.md                     # This file
 ├── PROJECT_OVERVIEW.md           # Project goals and summary
 ├── docs/
@@ -100,13 +100,10 @@ ecommerce-data-platform/
 │   ├── generate_orders.py        # Fake order event producer
 │   ├── generate_clicks.py        # Fake clickstream producer
 │   └── generate_inventory.py     # Fake inventory event producer
-├── databricks/
-│   ├── notebooks/
-│   │   ├── stream_orders.py      # Spark Streaming: orders topic
-│   │   ├── stream_clicks.py      # Spark Streaming: clickstream topic
-│   │   └── stream_inventory.py   # Spark Streaming: inventory topic
-│   └── jobs/
-│       └── job_config.json       # Databricks job definitions
+├── spark_jobs/
+│   ├── stream_orders.py      # Spark Streaming: orders topic
+│   ├── stream_clicks.py      # Spark Streaming: clickstream topic
+│   └── stream_inventory.py   # Spark Streaming: inventory topic
 ├── dbt_project/
 │   ├── dbt_project.yml
 │   ├── profiles.yml
@@ -128,14 +125,13 @@ ecommerce-data-platform/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Docker & Docker Compose
-- Python 3.9+
-- Databricks Community Edition account (free)
+- Python 3.11+
 - Snowflake account (30-day free trial)
-- Confluent Cloud account (free tier)
+- Conda (for virtual environment management)
 
 ### Quick Start
 ```bash
@@ -156,25 +152,25 @@ Full setup guide in each component's subdirectory README.
 
 ---
 
-## 📈 Key Outcomes
+## Key Outcomes
 
 - Real-time order and inventory visibility with sub-minute latency
-- Clean, tested dbt models powering analytics dashboards
-- Fully automated pipeline with zero manual intervention
-- Data quality enforced at every layer via dbt tests
+- Clean, validated data landing in Snowflake with sub-minute latency
+- Data quality checks enforced at the Spark processing layer
+- Fully containerised pipeline with one-command local setup
 
 ---
 
-## 🧠 What I Learned
+## What I Learned
 
 - How to design and build an end-to-end streaming data pipeline
-- Connecting Kafka to Databricks Spark Structured Streaming
+- Connecting Kafka to Databricks Spark Structured Streaming running in Docker
 - Writing production-style dbt models with staging and marts layers
 - Orchestrating multi-tool pipelines in Airflow
 - Managing data quality across raw, staging, and modelled layers
 
 ---
 
-## 👤 Author
+## Author
 
-Aditi Srivastava — www.linkedin.com/in/aditi-srivastava-941b7917b | (https://github.com/aditisri525/)
+Aditi Srivastava — [LinkedIn](https://linkedin.com/in/aditi-srivastava-941b7917b) | [GitHub](https://github.com/aditisri525)
